@@ -29,19 +29,22 @@
             <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <a class="navbar-brand mt-2 mt-lg-0"  href="#">
                     <h5>E_cart</h5>
                 </a>
                 <!-- Left links -->
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0" style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size: small; font-weight: bold;">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'index' %}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'product' %}">Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'customer' %}">Accounts</a>
+                    <li class="nav-item">                      
+                        <a class="nav-link" href="{% url 'customer' %}">
+                            <span class="text-dark">Hello, Guest</span>
+                            <span class="ms-2">Accounts</span>
+                        </a>                    
                     </li>
                 </ul>
             </div>
