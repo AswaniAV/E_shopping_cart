@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'product',
     'customer',
     'order',
-    'shopcartapp',
+
 ]
 
 MIDDLEWARE = [
