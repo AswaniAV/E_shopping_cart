@@ -13,8 +13,6 @@ def index(request):
     }        
     return render(request, 'index.html', context)
 
-def products(request):      
-    return render(request, 'products.html')
 
 def list_products(request):
     page = 1
@@ -26,4 +24,4 @@ def list_products(request):
     context = {
         'product_list': product_list
     }
-    return render(request, 'product.html', context)
+    return render(request, 'products.html', context)
