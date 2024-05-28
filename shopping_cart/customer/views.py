@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from customer.models import Customer 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login , logout as auth_logout  
+from django.contrib.auth import authenticate, login 
+from django.contrib.auth import logout as auth_logout 
 from django.contrib import messages
 
 def show_accounts(request):
@@ -28,7 +29,7 @@ def show_accounts(request):
 
         except ValueError as e:
             messages.error(request, str(e))
-        except Exception:
+        except Exception as e:
             messages.error(request, "An error occurred during registration")
 
     if 'login' in request.POST: 
@@ -38,7 +39,7 @@ def show_accounts(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            auth_login(request, user)
+            login(request, user)
             return redirect('index')  
         else:
             messages.error(request, 'Invalid credentials, please try again.')

@@ -28,7 +28,7 @@
                                {% else %} 
                                <p style="padding: 10px; text-align: center; margin: 10px; border-radius: 10px;">{{message}}</p>
                                {% endif %}
-                               {% endfor %}
+                            {% endfor %}
                         </div>
                         {% endif %}
 
@@ -37,14 +37,14 @@
                             <input type="text" name="username" placeholder="Username">
                             <input type="password" name="password" placeholder="Password">
                             <button type="submit" name="login" class="btn">Login</button>
-                            <a href="">Forget Password</a>
+                            
                         </form>
 
                         <form id="RegForm" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="text" name="username" placeholder="Username">
+                            <input type="text" name="username" maxlength="20" minlength="3" placeholder="Username" required>
                             <input type="email" name="email" placeholder="Email" required>
-                            <input type="password" name="password" placeholder="Password" >
+                            <input type="password" name="password" maxlength="20" minlength="6" placeholder="Password"  required>
                             <input type="number" name="phone" placeholder="Phone Number">
                             <input type="text" name="address" placeholder="Address" required>
                             <button type="submit" name="register" class="btn">Register</button>
