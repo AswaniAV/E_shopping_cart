@@ -12,7 +12,7 @@
         <div class="row">
             {% for featured_product in featured_products %}
             <div class="col-4">
-                <a href="#"><img src="{{ featured_product.img.url }}" alt="{{ featured_product.title }}"></a>
+                <a href="{% url 'product_details' featured_product.id %}"><img src="{{ featured_product.img.url }}" alt="{{ featured_product.title }}"></a>
                 <h4>{{ featured_product.title }}</h4>
                 <div class="rating">
                     <i class="fa fa-star"></i>
@@ -30,7 +30,7 @@
         <div class="row">
             {% for latest_product in latest_products %}
             <div class="col-4">
-                <a href="#"><img src="{{latest_product.img.url}}"></a>
+                <a href="{% url 'product_details' latest_product.id %}"><img src="{{latest_product.img.url}}"></a>
                 <h4>{{latest_product.title}}</h4>
                 <div class="rating">
                     <i class="fa fa-star"></i>

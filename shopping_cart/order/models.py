@@ -26,7 +26,7 @@ class Order(models.Model):
     )
 
     order_status = models.IntegerField(choices=ORDER_STATUS_CHOICES, default=ORDER_STAGE)
-    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="order")
+    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="orders")
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE)
     total_price = models.FloatField(default=0)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
@@ -40,11 +40,11 @@ class OrderItem(models.Model):
     DELETE = 0
     STATUS_CHOICES = (
         (LIVE,"Live"),
-        (DELETE, "Delete"), 
+        (DELETE, "Delete"),
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="added_cart")
-    quantity =models.IntegerField(default = 1)
-    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="added_items")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="order_items")
+    quantity = models.IntegerField(default=1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)

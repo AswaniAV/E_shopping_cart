@@ -29,8 +29,10 @@ def list_products(request):
 
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    latest_products = Product.objects.order_by('-id')[:4]
     context = {
-        'product': product
+        'product': product,
+        'latest_products': latest_products,
     }
     return render(request, 'product_details.html', context)
 

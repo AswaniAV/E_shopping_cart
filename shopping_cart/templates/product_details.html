@@ -7,56 +7,49 @@
             <div class="col-2">
                 <img src="{{product.img.url}}" width="100%" id="ProductImg">
 
-                <div class="small-img-row">
-                    <div class="small-img-col">
-                        <img src="{% static 'images/gallery-1.jpg' %}" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="{% static 'images/gallery-2.jpg' %}" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="{% static 'images/gallery-3.jpg' %}" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="{% static 'images/gallery-4.jpg' %}" width="100%" class="small-img">
-                    </div>
-                </div>
-
             </div>
             <div class="col-2">
                 <p>{{product.title}}</p>
                 <h1>{{product.title}}</h1>
-                <h4>${{product.price}}</h4>
-                <select>
-                    <option>Select Size</option>
-                    <option>XXL</option>
-                    <option>XL</option>
-                    <option>L</option>
-                    <option>M</option>
-                    <option>S</option>
-                </select>
-                <input type="number" value="1">
-                <a href="" class="btn">Add To Cart</a>
+                <h4>{{product.price}}</h4>
+
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn">Add To Cart</button>
+                    </form>
+                {% else %} 
+                    <div class="container" style="padding: 10px; border-radius: 5px; text-align: center; background-color: rgb(209, 203, 203);">
+                        <p>Please <a href="{% url 'show_accounts' %}" style="color: black;">LOGIN</a> or <a href="{% url 'show_accounts' %}" style="color: black;">REGISTER</a> to add this product to your cart</p>
+                    </div>
+                    <form action="{% url 'show_accounts' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn">Add To Cart</button>
+                    </form>
+                {% endif %}
 
                 <h3>Product Details <i class="fa fa-indent"></i></h3>
                 <br>
-                <p>{{product.content}}</p>
+                <p>{{product.content}}</p> 
             </div>
         </div>
     </div>
     <!-- title -->
     <div class="small-container">
         <div class="row row-2">
-            <h2>Related Products</h2>
+            <h2>Our Latest Products</h2>
             <p>View More</p>
         </div>
     </div>
     <!-- Products -->
     <div class="small-container">
         <div class="row">
+            {% for latest_product in latest_products %}
             <div class="col-4">
-                <img src="{% static 'images/product-9.jpg' %}">
-                <h4>Red Printed T-Shirt</h4>
+                <a href="{% url 'product_details' latest_product.id %}"><img src="{{latest_product.img.url}}"></a>
+                <h4>{{latest_product.title}}</h4>
                 <div class="rating">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -64,44 +57,9 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star-o"></i>
                 </div>
-                <p>$50.00</p>
+                <p>{{latest_product.price}}</p>
             </div>
-            <div class="col-4">
-                <img src="{% static 'images/product-10.jpg' %}">
-                <h4>Red Printed T-Shirt</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$50.00</p>
-            </div>
-            <div class="col-4">
-                <img src="{% static 'images/product-11.jpg' %}">
-                <h4>Red Printed T-Shirt</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$50.00</p>
-            </div>
-            <div class="col-4">
-                <img src="{% static 'images/product-10.jpg' %}">
-                <h4>Red Printed T-Shirt</h4>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>$50.00</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
