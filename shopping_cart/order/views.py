@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Order, OrderItem
+from .models import *
 from product.models import Product
 from customer.models import Customer
 import logging
@@ -10,22 +10,22 @@ logger = logging.getLogger('django')
 
 # Create your views here.
 
-@login_required
 def cart(request):
     user = request.user
-
     try:
         customer = user.customer
-        cart_order = Order.objects.get(owner=customer, order_status=Order.CART_STAGE)
-        ordered_items = cart_order.added_items.all()
     except Customer.DoesNotExist:
         messages.error(request, 'Please create your profile first.')
         return redirect('show_accounts')
-    except Order.DoesNotExist:
-        ordered_items = []
+    
+    cart_order, created = Order.objects.get_or_create(
+        owner=customer, 
+        order_status=Order.CART_STAGE
+        )
 
+    ordered_items = cart_order.added_items.all()
     subtotal = sum(item.product.price * item.quantity for item in ordered_items)
-    shipping_fee = 100.00 if ordered_items else 0
+    shipping_fee = 100.00 
     total_price = subtotal + shipping_fee
 
     context = {
@@ -51,27 +51,41 @@ def add_to_cart(request, pk):
         product = get_object_or_404(Product, pk=pk)
 
         cart_order, created = Order.objects.get_or_create(owner=customer, order_status=Order.CART_STAGE)
-        order_item, created = OrderItem.objects.get_or_create(product=product, owner=cart_order)
+        ordered_items, created = OrderItem.objects.get_or_create(product=product, owner=cart_order)
 
         if created:
-            order_item.quantity = quantity
+            ordered_items.quantity = quantity
         else:
-            order_item.quantity += quantity
+            ordered_items.quantity += quantity
 
-        order_item.save()
+        ordered_items.save()
         messages.success(request, 'Product added to cart successfully.')
 
     return redirect('cart')
 
 @login_required
-def remove_from_cart(request, item_id):
-    try:
-        order_item = get_object_or_404(OrderItem, id=item_id)
-        order_item.delete()
-        messages.success(request, 'Item removed from cart.')
-    except OrderItem.DoesNotExist:
-        messages.error(request, 'Item not found in cart.')
+def remove_from_cart(request, pk):
+    user = request.user
 
+    try:
+        customer = user.customer
+    except Customer.DoesNotExist:
+        messages.error(request, 'Please create your profile first.')
+        return redirect('show_accounts')
+
+    product = get_object_or_404(Product, pk=pk)
+    cart_order = get_object_or_404(
+        Order,
+        owner=customer, 
+        order_status=Order.CART_STAGE
+        )
+    ordered_items = get_object_or_404(
+        OrderItem, product=product, 
+        owner=cart_order
+        )
+
+    ordered_items.delete()
+    messages.success(request, 'Product removed from cart successfully.')
     return redirect('cart')
 
 @login_required
@@ -126,13 +140,9 @@ def confirm_order(order_obj, total_price):
 @login_required(login_url='login')
 def show_orders(request):
     user = request.user
-    try:
-        customer = user.customer
-        all_orders = Order.objects.filter(owner=customer).exclude(order_status=Order.CART_STAGE)
-    except Customer.DoesNotExist:
-        messages.error(request, 'Please create your profile first.')
-        return redirect('show_accounts')
-
+    customer = user.customer
+    all_orders = Order.objects.filter(owner=customer).exclude(order_status=Order.CART_STAGE)
+    
     context = {
         'all_orders': all_orders
     }

@@ -48,3 +48,6 @@ class OrderItem(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def __str__(self):
+        return "order item - {} - {}".format(self.id, self.owner)

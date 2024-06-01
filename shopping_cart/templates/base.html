@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body style="font-size: 14px;">
+<body >
    
     <div class="header">
         <div class="container">
@@ -37,15 +37,7 @@
                 
                 <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()">
             </div>
-            <div style="text-align: center; color: green;">
-                {% if messages %}
-                  <ul class="messages">
-                    {% for message in messages %}
-                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                 </ul>
-               {% endif %}    
-           </div>
+            
 
             {% block banner %}
             <!-- Default banner content if any -->
