@@ -18,19 +18,7 @@
                             <hr id="Indicator">
                         </div>
                                       
-                        {% if messages %}
-                        <div class="container">
-                            {% for message in messages %}
-                               {% if message.tags == 'error' %}
-                               <p style="color: red; padding: 10px; text-align: center; margin: 10px;">{{message}}</p>
-                               {% elif message.tags == 'success' %} 
-                               <p style="color:green; padding: 10px; text-align: center; margin: 10px; border-radius: 10px;">{{message}}</p>
-                               {% else %} 
-                               <p style="padding: 10px; text-align: center; margin: 10px; border-radius: 10px;">{{message}}</p>
-                               {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+
 
                         <form id="LoginForm" method ="post" enctype="multipart/form-data">
                             {% csrf_token %}

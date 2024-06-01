@@ -1,1 +1,67 @@
-<h1>order page</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Cart items details -->
+<div class="small-container cart-page">
+    {% if all_orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in all_orders %}
+            <tr>
+                <td>OID{{ order.id }}</td>
+                <td>{{ order.created_at|date:"F j, Y" }}</td>
+                <td>${{ order.total_price|floatformat:2 }}</td>
+                <td>
+                    <span class="status {{ order.get_order_status_display|lower }}">{{ order.get_order_status_display }}</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: green;">No orders found.</p>
+    {% endif %}
+</div>
+
+<!-- Additional CSS for better styling -->
+<style>
+    .cart-page table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .cart-page th, .cart-page td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    .cart-page th {
+        background-color: #2b282a;
+    }
+    .cart-page tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .cart-page tr:hover {
+        background-color: #ddd;
+    }
+    .status.pending {
+        color: orange;
+    }
+    .status.completed {
+        color: green;
+    }
+    .status.canceled {
+        color: red;
+    }
+</style>
+
+{% endblock %}

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body style="font-size: 14px;">
    
     <div class="header">
         <div class="container">
@@ -26,8 +26,9 @@
                         <li><a href="{% url 'list_products' %}">Products</a></li>
                         {% if user.is_authenticated %}
                         <li><span class="p-2">Hi, {{user.username}}</span></li>
+                        <li><a href="{% url 'show_orders' %}">orders</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
-                        <a href=""><img src="{% static 'images/cart.png' %}" width="30px" height="30px"></a>
+                        <a href="{% url 'cart' %}"><img src="{% static 'images/cart.png' %}" width="25px" height="25px"></a>
                         {% else %}
                         <li><a href="{% url 'show_accounts' %}">Accounts</a></li>
                         {% endif %}
@@ -36,6 +37,16 @@
                 
                 <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()">
             </div>
+            <div style="text-align: center; color: green;">
+                {% if messages %}
+                  <ul class="messages">
+                    {% for message in messages %}
+                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                 </ul>
+               {% endif %}    
+           </div>
+
             {% block banner %}
             <!-- Default banner content if any -->
             {% endblock %}
@@ -75,15 +86,15 @@
                 <div class="footer-col-4">
                     <h3>Follow Us</h3>
                     <ul>
-                        <li>Facebook</li>
-                        <li>Twitter</li>
-                        <li>Instagram</li>
-                        <li>Youtube</li>
+                        <li> <a href="#">Facebook</a> </li>
+                        <li> <a href="#">Twitter</a></li>
+                        <li> <a href="#">Instagram</a></li>
+                        <li> <a href="#">Youtube</a></li>
                     </ul>
                 </div>
             </div>
             <hr>
-            <p class="copyright">Copyright 2024 - Samwit Adhikary</p>
+            <p class="copyright">Copyright 2024 - redstore</p>
         </div>
     </div>
 
